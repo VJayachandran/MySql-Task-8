@@ -1,0 +1,89 @@
+1.movie table: contains information about movies
+
+CREATE TABLE movies (
+    movie_id INT AUTO_INCREMENT PRIMARY KEY,
+    title VARCHAR(255) NOT NULL,
+    release_year INT,
+    duration_minutes INT,
+    /* other movie details */
+);
+
+2.Media table: contains images or videos associated with movies
+CREATE TABLE media (
+    media_id INT AUTO_INCREMENT PRIMARY KEY,
+    movie_id INT,
+    media_type ENUM('image', 'video'),
+    url VARCHAR(255),
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id)
+);
+
+3. Genres Table: Contains different movie genres.
+
+CREATE TABLE genres (
+    genre_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50)
+);
+4. Movie_Genres Table: Associates movies with their genres.
+
+CREATE TABLE movie_genres (
+    movie_id INT,
+    genre_id INT,
+    PRIMARY KEY (movie_id, genre_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+    FOREIGN KEY (genre_id) REFERENCES genres(genre_id)
+);
+5. Reviews Table: Contains reviews given by users for movies.
+
+CREATE TABLE reviews (movie_id INT, user_id INT, rating DECIMAL(3,1), 
+comment TEXT, review_date DATE, PRIMARY KEY(movie_id, user_id), FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+FOREIGN KEY (user_id) REFERENCES users(user_id));
+
+6. Users Table: Contains information about users.
+
+CREATE TABLE users (
+    user_id INT AUTO_INCREMENT PRIMARY KEY,
+    username VARCHAR(50) NOT NULL,
+    /* other user details */
+);
+
+7. Artists Table: Contains information about artists.
+
+CREATE TABLE artists (
+    artist_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(100) NOT NULL,
+    /* other artist details */
+);
+
+8. Skills Table: Contains different skills an artist can have.
+CREATE TABLE skills (
+    skill_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+9. Artist_Skills Table: Associates artists with their skills.
+CREATE TABLE artist_skills (
+    artist_id INT,
+    skill_id INT,
+    PRIMARY KEY (artist_id, skill_id),
+    FOREIGN KEY (artist_id) REFERENCES artists(artist_id),
+    FOREIGN KEY (skill_id) REFERENCES skills(skill_id)
+);
+
+10. Roles Table: Contains different roles an artist can perform.
+CREATE TABLE roles (
+    role_id INT AUTO_INCREMENT PRIMARY KEY,
+    name VARCHAR(50)
+);
+
+11. Movie_Artists Table: Associates artists with movies and their roles.
+CREATE TABLE movie_artists (
+    movie_id INT,
+    artist_id INT,
+    role_id INT,
+    PRIMARY KEY (movie_id, artist_id, role_id),
+    FOREIGN KEY (movie_id) REFERENCES movies(movie_id),
+    FOREIGN KEY (artist_id) REFERENCES artists(artist_id),
+    FOREIGN KEY (role_id) REFERENCES roles(role_id)
+);
+
+
